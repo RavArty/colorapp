@@ -14,6 +14,20 @@ const app = new Clarifai.App({
  apiKey: 'f708fd0eb7ad441c93f44dae1de7d9e0'
 });
 
+const initialState = {
+  input: '',
+      imgUrl: '',
+      colors: [],
+      route: 'signin',
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
+}
 
 class App extends Component {
   constructor(){
@@ -23,9 +37,27 @@ class App extends Component {
       imgUrl: '',
       colors: [],
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
+
+loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
+  }
+
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
@@ -41,21 +73,31 @@ onButtonSubmit = () => {
   app.models.predict(
     Clarifai.COLOR_MODEL, 
     this.state.input)
-    .then(response => this.keepColors(response))
-    .catch(err => console.log(err))
-  
-  // .then(
-  //   function(response) {
-  //   //  console.log(
-  //       response.outputs[0].data.colors.forEach(function(item){
-  //         console.log(item.raw_hex, item.value)
-  //       })//)
-  //   },
-  //   function(err){});
+    .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+             // this.setState({user : {entries: count}})
+             this.setState(Object.assign(this.state.user, { entries: count}))
+            })
+            .catch(console.log)
+
+        }
+        this.keepColors(response)
+      })
+      .catch(err => console.log(err));
 }
+
 onRouteChange = (route) => {
   if(route === 'signout'){
-    this.setState({isSignedIn: false})
+    this.setState(initialState)
   }else if(route === 'home'){
     this.setState({isSignedIn: true})
   }
@@ -69,13 +111,16 @@ render() {
     { route === 'home'
       ? <div>
           <Logo/>
-          <Rank/>
+          <Rank
+            name={this.state.user.name}
+            entries={this.state.user.entries}
+          />
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
         </div>
       : ( this.state.route === 'signin'
-          ? <Signin onRouteChange={this.onRouteChange}/>
-          : <Register onRouteChange={this.onRouteChange}/>
+          ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+          : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
         ) 
        
     }
