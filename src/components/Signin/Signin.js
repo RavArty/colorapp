@@ -18,7 +18,8 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
-    fetch('https://warm-forest-93262.herokuapp.com/signin', {
+    fetch('http://localhost:3000/signin', {
+  //  fetch('https://warm-forest-93262.herokuapp.com/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -75,6 +76,9 @@ class Signin extends React.Component {
             </div>
             <div className="lh-copy mt3">
               <p  onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
+            </div>
+            <div className="lh-copy mt3">
+              <p  onClick={() => onRouteChange('testHome')} className="f6 link dim black db pointer">Cancel</p>
             </div>
           </div>
         </main>

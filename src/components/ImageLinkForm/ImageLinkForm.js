@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+//For for uploading images
 const ImageLinkForm = ({ onInputChange, onButtonSubmit}) => {
   return (
     <div>
