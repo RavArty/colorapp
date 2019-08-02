@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import Navigation from './components/Navigation/Navigation';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
-import Logo from './components/Logo/Logo';
-import Rank from './components/Rank/Rank';
-import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
-import ColorRecognition from './components/ColorRecognition/ColorRecognition';
-import ButtonToHistory from './components/HistoryCards/ButtonToHistory';
-//import './App.css';
+import Navigation from '../../components/Navigation/Navigation';
+import Signin from '../../components/Signin/Signin';
+import Register from '../../components/Register/Register';
+import Logo from '../../components/Logo/Logo';
+import Rank from '../../components/Rank/Rank';
+import ImageLinkForm from '../../components/ImageLinkForm/ImageLinkForm';
+import ColorRecognition from '../../components/ColorRecognition/ColorRecognition';
+// import ButtonToHistory from './components/HistoryCards/ButtonToHistory';
+import HistoryCards from '../../components/HistoryCards/HistoryCards';
+
 
 //Default state to remove picture and current data
 const initialState = {
@@ -44,6 +45,7 @@ class Main extends Component {
     }
   }
 
+ 
 loadUser = (data) => {
     this.setState({user: {
       id: data.id,
@@ -57,9 +59,7 @@ loadUser = (data) => {
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
-//  this.setState({colors: clarifaiColors})
-this.setState(Object.assign(this.state.user, { colors: clarifaiColors}))
-// console.log(this.state.colors)
+  this.setState(Object.assign(this.state.user, { colors: clarifaiColors}))
 }
 onInputChange = (event) => {
   this.setState({input: event.target.value})
@@ -78,27 +78,33 @@ onButtonSubmit = () => {
     })
     .then(response => response.json())
     .then(response => {
+ 
         this.keepColors(response)
-        if (response) {
-          fetch('http://localhost:3000/image', {    
+        fetch('http://localhost:3000/postcolors', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          input: this.state.input,
+          id: this.state.user.id,
+          colors: response.outputs[0].data.colors
+        })
+      })   
+      .then(response => {
+        fetch('http://localhost:3000/image', {    
        //   fetch('https://warm-forest-93262.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               id: this.state.user.id,
-              input: this.state.input,
-              colors: this.state.user.colors
             })
           })
             .then(response => response.json())
             .then(count => {
-             // this.setState({user : {entries: count}})
              this.setState(Object.assign(this.state.user, { entries: count}))
             })
             .catch(console.log)
-
-        }
-      //  this.keepColors(response)
+      })
+      .catch(err => console.log(err))
       })
       .catch(err => console.log(err));
 }
@@ -113,7 +119,7 @@ onRouteChange = (route) => {
 }
 render() {
   const { isSignedIn, route, imgUrl, user } = this.state;
-  let useComponent  //depending on route state
+  let useComponent  //depends on route state
 
   if(route === 'testHome') {
     useComponent = 
@@ -132,7 +138,8 @@ render() {
           />
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition id={user.id} colors={user.colors} imgUrl={imgUrl}/>
-          <ButtonToHistory id={user.id}/>
+          <HistoryCards id={user.id}/>
+          {/* <ButtonToHistory id={user.id}/> */}
         </div>
   } else if (route === 'signin'){
     useComponent = <Signin 
@@ -146,7 +153,7 @@ render() {
   
   return (
     <div className ='App'> 
-      <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
+      {/* <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/> */}
        {useComponent}
     </div>
   );

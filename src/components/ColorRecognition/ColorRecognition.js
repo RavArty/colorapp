@@ -46,6 +46,7 @@ class ColorRecognition extends React.Component  {
       console.log('no colors')
     } else {
     //  this.fetchSync()
+      console.log('fetching')
       this.fetchAsync()
       // let parsedColors
 
@@ -62,7 +63,10 @@ class ColorRecognition extends React.Component  {
   render(){
     
     const {id, colors, imgUrl} = this.props
-    this.updateColorsTable(colors)
+    // if (id){
+    //   this.updateColorsTable(colors)
+    // }
+    
     return (
   	<div className = 'center'>	
   			<table>

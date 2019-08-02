@@ -9,7 +9,7 @@ class HistoryCards extends React.Component {
     }
   }
 componentDidMount(){
-  const {id} = this.props.location.state
+  const {id} = this.props
   fetch('http://localhost:3000/history', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
