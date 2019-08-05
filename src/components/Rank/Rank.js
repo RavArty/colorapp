@@ -1,16 +1,24 @@
 import React from 'react';
 
-const Rank = ({ name, entries }) => {
-  return (
+class Rank extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    const { name } = this.props
+    return (
     <div>
       <div className='black f3'>
-        {`${name}, your current entry count is...`}
+        {`Hi ${name}, upload any image...`}
       </div>
-      <div className='black f1'>
-        {entries}
-      </div>
+      {/* <div className='black f1'>
+        {this.state.entries}
+      </div> */}
     </div>
   );
+  }
+  
 }
 
 export default Rank;
