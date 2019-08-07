@@ -6,14 +6,14 @@ class Rank extends React.Component {
   }
 
   render(){
-    const { name } = this.props
+    const { name, entries } = this.props
     return (
     <div>
       <div className='black f3'>
         {`Hi ${name}, upload any image...`}
       </div>
       {/* <div className='black f1'>
-        {this.state.entries}
+        {entries}
       </div> */}
     </div>
   );

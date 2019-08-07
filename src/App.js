@@ -5,6 +5,7 @@ import SignInAndSignUpPage from './pages/sign_in_up/sign_in_up'
 import './App.css';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Header from './components/Header/Header'
+import HistoryCards from './components/HistoryCards/HistoryCards';
 class App extends Component {
  
   constructor(){
@@ -74,7 +75,7 @@ class App extends Component {
         <Route exact path='/' component={() => 
           <Main user={currentUser} />}
         />
-        {/* <Route path='/history' component={HistoryCards} /> */}
+        <Route path='/history' component={HistoryCards} />
         {/* <Route exact path='/signin' component={SignInAndSignUpPage} /> */}
         <Route exact path='/signin' 
         render={() => 

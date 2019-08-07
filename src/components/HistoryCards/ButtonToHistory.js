@@ -10,7 +10,6 @@ const ButtonToHistory = ({ id }) => {
             state : {id: id}}}>
         <button
           className='w-30 grow f4 link ph3 pa4 pv2 dib blue '>
-            {id}
             History
         </button>
       </Link>

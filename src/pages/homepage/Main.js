@@ -6,8 +6,8 @@ import Logo from '../../components/Logo/Logo';
 import Rank from '../../components/Rank/Rank';
 import ImageLinkForm from '../../components/ImageLinkForm/ImageLinkForm';
 import ColorRecognition from '../../components/ColorRecognition/ColorRecognition';
-// import ButtonToHistory from './components/HistoryCards/ButtonToHistory';
-import HistoryCards from '../../components/HistoryCards/HistoryCards';
+import ButtonToHistory from '../../components/HistoryCards/ButtonToHistory';
+
 
 
 
@@ -29,6 +29,7 @@ class Main extends Component {
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
+  console.log('clarifaiColors: ', clarifaiColors)
   this.setState(Object.assign(this.state.colors, { colors: clarifaiColors}))
 }
 onInputChange = (event) => {
@@ -75,9 +76,10 @@ render() {
     useComponent = 
         <div>
           <Logo/>
-          <Rank name={user.displayName} id={user.id}/> 
+          <Rank name={user.displayName} entries={user.entries}/> 
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
+          <ButtonToHistory id={user.id}/>
         </div>
     }else{
     useComponent = 
