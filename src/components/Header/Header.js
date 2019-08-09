@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-//import './Header.scss'
+import './Header.scss'
 
 
 const styles = (theme) => ({
@@ -24,16 +24,34 @@ class Header extends React.Component {
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, title, currentUser } = this.props;
 
     return(
     <AppBar color="primary" position="static">
         <Toolbar variant="regular">
-          <Typography style={{ flexGrow: 1 }} color="inherit" variant="h6">Colors</Typography>
-            <>
+          <Link to='/'>
+            <IconButton edge="start" color="inherit" aria-label="menu">
+              <img src="https://i.ibb.co/YPFSJSg/multi-colors-in-circle-udt-2-2.png"
+                style={{ height: 50, width: 50 }}/>
+            </IconButton>
+          </Link>
+            
+          <Typography style={{ flexGrow: 1 }} color="inherit" variant="h6">{title}</Typography>
+          {currentUser ? (
+              <Button color="secondary" variant="contained" onClick={() => auth.signOut()}>
+                Sign Out
+              </Button>
+          ) : (  
+            <Link className='button' to='/signin'>
+              <Button color="secondary" variant="contained">
+                Sign In
+              </Button>
+            </Link>
+          )}
+            {/* <>
               <Button className={classes.signUpButton} color="secondary" variant="contained" >Sign Up</Button>
               <Button color="secondary" variant="contained" >Sign In</Button>
-            </>
+            </> */}
           
         </Toolbar>
       </AppBar>
@@ -66,5 +84,5 @@ class Header extends React.Component {
   // </div>
 
 
-export default withStyles(styles)(Header);
-//export default Header
+//export default withStyles(styles)(Header);
+export default Header

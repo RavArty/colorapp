@@ -75,7 +75,7 @@ render() {
     if(user !== null) {
     useComponent = 
         <div>
-          <Logo/>
+          {/* <Logo/> */}
           <Rank name={user.displayName} entries={user.entries}/> 
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
@@ -84,7 +84,7 @@ render() {
     }else{
     useComponent = 
       <div>
-        <Logo/>
+        {/* <Logo/> */}
         <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
         <ColorRecognition colors={colors} imgUrl={imgUrl}/>
       </div>

@@ -6,6 +6,18 @@ import './App.css';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Header from './components/Header/Header'
 import HistoryCards from './components/HistoryCards/HistoryCards';
+import settings from './settings';
+// Material-UI
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+let theme = createMuiTheme({
+  palette: {
+    primary: settings.theme.primaryColor.import,
+    secondary: settings.theme.secondaryColor.import,
+    type: settings.theme.type
+  }
+});
+
 class App extends Component {
  
   constructor(){
@@ -70,20 +82,23 @@ class App extends Component {
    console.log('user: ', currentUser)
       return (
     <div>
-      <Header currentUser={currentUser}/>
-      <Switch>
-        <Route exact path='/' component={() => 
-          <Main user={currentUser} />}
-        />
-        <Route path='/history' component={HistoryCards} />
-        {/* <Route exact path='/signin' component={SignInAndSignUpPage} /> */}
-        <Route exact path='/signin' 
-        render={() => 
-          this.state.currentUser ? (
-                <Redirect to='/' />
-              ) : (<SignInAndSignUpPage />)}/>
+      <MuiThemeProvider theme={theme}>
+        <Header title={settings.title} currentUser={currentUser}/>
+          <Switch>
+            <Route exact path='/' component={() => 
+              <Main user={currentUser} />}
+            />
+            <Route path='/history' component={HistoryCards} />
+            {/* <Route exact path='/signin' component={SignInAndSignUpPage} /> */}
+            <Route exact path='/signin' 
+            render={() => 
+              this.state.currentUser ? (
+                    <Redirect to='/' />
+                  ) : (<SignInAndSignUpPage />)}/>
 
-      </Switch>
+          </Switch>
+      </MuiThemeProvider>
+      
     </div>
   );
   }
