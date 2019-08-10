@@ -9,7 +9,7 @@ class Rank extends React.Component {
     const { name, entries } = this.props
     return (
     <div>
-      <div className='black f3'>
+      <div className='black f3 mt5'>
         {`Hi ${name}, upload any image...`}
       </div>
       {/* <div className='black f1'>

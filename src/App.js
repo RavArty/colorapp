@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from './pages/homepage/Main.js'
 import SignInAndSignUpPage from './pages/sign_in_up/sign_in_up'
+import SignIn from './components/Signin/Signin'
+import SignUp from './components/Signup/Signup'
 import './App.css';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Header from './components/Header/Header'
 import HistoryCards from './components/HistoryCards/HistoryCards';
 import settings from './settings';
-// Material-UI
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
 
 let theme = createMuiTheme({
   palette: {
@@ -79,11 +81,13 @@ class App extends Component {
 
   render(){
     const {currentUser} = this.state
-   console.log('user: ', currentUser)
+ // console.log('user: ', currentUser)
       return (
     <div>
       <MuiThemeProvider theme={theme}>
-        <Header title={settings.title} currentUser={currentUser}/>
+
+      
+      <Header currentUser={currentUser}/>
           <Switch>
             <Route exact path='/' component={() => 
               <Main user={currentUser} />}
@@ -94,11 +98,16 @@ class App extends Component {
             render={() => 
               this.state.currentUser ? (
                     <Redirect to='/' />
-                  ) : (<SignInAndSignUpPage />)}/>
+                  ) : (<SignIn/>)}/>
+            <Route exact path='/signup' 
+            render={() => 
+              this.state.currentUser ? (
+                    <Redirect to='/' />
+                  ) : (<SignUp />)}/>
 
           </Switch>
-      </MuiThemeProvider>
       
+      </MuiThemeProvider>
     </div>
   );
   }

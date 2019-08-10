@@ -1,10 +1,10 @@
 import React from 'react'
 import FormInput from '../formInput/formInput'
 import CustomButton from '../customButton/customButton';
-import Container from '@material-ui/core/Container';
+
 import { signInWithGoogle }  from '../../firebase/firebase.utils';
 import { auth } from '../../firebase/firebase.utils';
-import Button from '@material-ui/core/Button';
+
 import './Signin.scss'
 
 class SignIn extends React.Component {
@@ -33,10 +33,10 @@ class SignIn extends React.Component {
     this.setState({[name]: value})
     }
   render() {
-    const {classes} = this.props
     return (
-      <Container className='header' maxWidth="sm">  
-        <h2 className='title'>Sign In</h2>
+      <div className='sign-in'>
+        <h2>I have an account</h2>
+        <span>Sign in with your email and password</span>
 
         <form onSubmit={this.handleSubmit}>
           <FormInput
@@ -44,29 +44,25 @@ class SignIn extends React.Component {
             type='email'
             handleChange={this.handleChange}
             value={this.state.email}
-            label='Email'
+            label='email'
             required
-            autoFocus
           />
           <FormInput
             name='password'
             type='password'
             handleChange={this.handleChange}
             value={this.state.password}
-            label='Password'
+            label='password'
             required
           />
           <div className='buttons'>
-            <div className='button'>
-              <Button className='button-signin' color="secondary" size="large"  variant="contained" type='submit'>Sign In</Button>
-              <Button className='button-signin' color="secondary" size="large"  variant="contained" onClick={signInWithGoogle} isGoogleSignIn>
-                Sign in with Google
-              </Button>
-            </div>
-            
+            <CustomButton type='submit'> Sign in </CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+              Sign in with Google
+            </CustomButton>
           </div>
         </form>
-      </Container>
+      </div>
     )
   }
 }
