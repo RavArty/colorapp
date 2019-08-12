@@ -9,7 +9,7 @@ class Color extends React.Component {
     <div >
       <div className = 'mw8 pa2 center br4 shadow-3'>
         {`${this.props.colorCode}, ${Number(this.props.value * 100).toFixed(2)}%  `}
-        <Circle r={10} fill={{color: this.props.colorCode}} />
+        &nbsp;<Circle r={10} fill={{color: this.props.colorCode}} />
         
       </div>
       <div className='pb2'></div>

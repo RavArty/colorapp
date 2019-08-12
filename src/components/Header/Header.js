@@ -28,7 +28,7 @@ class Header extends React.Component {
     const { classes,currentUser } = this.props;
 
     return(
-      <AppBar color="primary" position="static">
+      <AppBar className='header-appbar' color="primary" position="static">
         <Toolbar variant="regular">
           <Link to='/'>
             <IconButton edge="start" color="inherit" aria-label="menu">

@@ -48,7 +48,8 @@ onButtonSubmit = () => {
     })
     .then(response => response.json())
     .then(response => {
-        this.keepColors(response)
+
+        this.keepColors(response)  // update colors with fetched values 
         if(this.props.user){
           fetch('http://localhost:3000/postcolors', {
                   method: 'post',
@@ -60,7 +61,7 @@ onButtonSubmit = () => {
                   })
                 })   
                 .then(response => response.json())
-                .catch(err => console.log(err))
+                .catch(err => response.status(400).json('unable to update db: ', err))
         }
         
       })

@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 class Rank extends React.Component {
   constructor(props){
@@ -9,9 +10,12 @@ class Rank extends React.Component {
     const { name, entries } = this.props
     return (
     <div>
-      <div className='black f3 mt5'>
+      <Typography variant="h4">
         {`Hi ${name}, upload any image...`}
-      </div>
+      </Typography>
+      {/* <div className='black f3 mt5'>
+        {`Hi ${name}, upload any image...`}
+      </div> */}
       {/* <div className='black f1'>
         {entries}
       </div> */}
