@@ -9,6 +9,7 @@ class Main extends Component {
   constructor(props){
     super(props)
     this.state = {
+      user: null,
       input: '',
       imgUrl: '',
       route: 'testHome',
@@ -18,6 +19,7 @@ class Main extends Component {
       colorsTest: [],
     }
   }
+
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
@@ -81,10 +83,31 @@ onButtonSubmit = () => {
                     colorValue: colorArrValue
                     //colors: response.outputs[0].data.colors
                   })
-                })   
+                })
                 .then(response => response.json())
-                .catch(err => response.status(400).json('unable to update db: ', err))
-        }
+                // .then(response => {
+                //   console.log('resp323:', response)
+                //   response.json()
+                // })
+                // .then(response => {
+                //   console.log('last step: ', response)
+                //   fetch('http://localhost:3000/image', {
+                //   method: 'post',
+                //   headers: {'Content-Type': 'application/json'},
+                //   body: JSON.stringify({
+                //     id: this.props.user.id,
+                //   })
+                // })   
+                // .then(response => response.json())
+                // .then(count => {
+                //     this.setState(Object.assign(this.state.entries, { entries: count}))
+                //   })
+                // .catch(console.log)
+                // })
+                .catch(err => console.log('unable to post colors: ', err))
+                //.catch(err => console.log(err));
+              }
+      
         
       })
       .catch(err => console.log(err));
@@ -92,13 +115,18 @@ onButtonSubmit = () => {
 
 render() {
   const {user} = this.props
-  const { colors, imgUrl } = this.state
+  const { colors, imgUrl, entries } = this.state
   let useComponent  //depends on route state
-
+  let finalEntries = 0
+  // if (entries >= JSON.stringify(user.entries)){
+  //   finalEntries = entries
+  // }else {
+  //   finalEntries = user.entries
+  // }
     if(user !== null) {
     useComponent = 
         <div>
-          <Rank name={user.displayName} entries={user.entries}/> 
+          <Rank name={user.displayName} entries={entries}/> 
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
           <ButtonToHistory id={user.id}/>
