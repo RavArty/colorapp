@@ -37,13 +37,6 @@ parseColors = (data) => {
   const colors = data.outputs[0].data.colors
   colors.map((color, i) =>{
      return colorArr.push(color.raw_hex, (color.value * 100).toFixed(2))
-  //   return(
-  //   <Color
-  //     key={i}
-  //     colorCode = {color.raw_hex}
-  //     value = {color.value}
-  //   />
-  // );
   })
 console.log('colorArr: ', colorArr)
 }
@@ -65,6 +58,7 @@ onButtonSubmit = () => {
     .then(response => response.json())
     .then(response => {
         this.keepColors(response)  // update colors with fetched values 
+        //----------------------------------------------------------------
         const colorArr = []
         const colorArrValue = []
         const colors = response.outputs[0].data.colors
@@ -74,9 +68,7 @@ onButtonSubmit = () => {
                   colorArrValue.push((color.value * 100).toFixed(2))
                   )
         })
-       // const colors = this.parseColors(response)
-      //  console.log('colors in post: ', colorArr)
-      //  console.log('colors in values: ', colorArrValue)
+        //----------------------------------------------------------------
         if(this.props.user){
           fetch('http://localhost:3000/postcolors', {
                   method: 'post',
@@ -86,7 +78,6 @@ onButtonSubmit = () => {
                     id: this.props.user.id,
                     colors: colorArr,
                     colorValue: colorArrValue
-                    //colors: response.outputs[0].data.colors
                   })
                 })
                 .then(response => response.json())
@@ -108,7 +99,6 @@ onButtonSubmit = () => {
                 .catch(console.log)
                  })
                 .catch(err => console.log('unable to post colors: ', err))
-                //.catch(err => console.log(err));
               }
       
         
@@ -120,7 +110,6 @@ render() {
   const {user} = this.props
   const { colors, imgUrl, entries } = this.state
   let useComponent  //depends on route state
-  let finalEntries = 0
 
     if(user !== null) {
     useComponent = 
