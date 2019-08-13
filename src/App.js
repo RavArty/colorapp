@@ -72,27 +72,8 @@ class App extends Component {
         }
           
         })
-      //  .then(response => console.log(response))
         .catch(err => console.log('unable to check user in db', err))
   }
-
-  // registerUserInDB = (id, data) => {
-  //   if (!id) return
-  //     fetch('http://localhost:3000/register', {
-  //       method: 'post',
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: JSON.stringify({
-  //         id: id,
-  //         name: data.displayName,
-  //         email: data.email
-  //       })
-  //     })
-  //       .then(response => response.json())
-  //       .then(count => {
-  //         this.setState(Object.assign(
-  //           this.state.currentUser, { entries: count}))})
-  //       .catch(err => console.log('user not registered in db', err))
-  // }
 
   componentDidMount(){
     //returns a func
@@ -135,7 +116,6 @@ class App extends Component {
               <Main user={currentUser} />}
             />
             <Route path='/history' component={HistoryCards} />
-            {/* <Route exact path='/signin' component={SignInAndSignUpPage} /> */}
             <Route exact path='/signin' 
             render={() => 
               this.state.currentUser ? (
