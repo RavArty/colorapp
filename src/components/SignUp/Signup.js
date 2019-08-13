@@ -22,20 +22,6 @@ class SignUp extends React.Component {
     };
   }
 
-  // registerUserInDB = (id, data) => {
-  //   if (!id) return
-  //     fetch('http://localhost:3000/register', {
-  //       method: 'post',
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: JSON.stringify({
-  //         email: data.email,
-  //         name: data.displayName,
-  //         id: id
-  //       })
-  //     })
-  //       .then(response => response.json())
-  //       .catch(err => console.log('user not registered in db', err))
-  // }
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -53,11 +39,7 @@ class SignUp extends React.Component {
         password
       );
       const userRef = await createUserProfileDocument(user, { displayName }); 
-      // userRef.onSnapshot(snapShot => {
-      //   this.registerUserInDB(snapShot.id, snapShot.data())
-      //  //  console.log('snapshot:', snapShot.data())
-      //     }
-      // )
+
       this.setState({
         displayName: '',
         email: '',
@@ -122,9 +104,7 @@ class SignUp extends React.Component {
              <Button  color="secondary" size="large"  variant="contained" type='submit'>Sign Up</Button>
           
           </div>
-         {/* <CustomButton type='submit'>SIGN UP</CustomButton> */}
         </form>
-      {/* </div> */}
       </Container>
     );
   }

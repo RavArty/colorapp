@@ -11,21 +11,13 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit}) => {
       <Typography className='heading-motto' variant="h4">
         This Color Model will detect dominant colors in your pictures
       </Typography>
-      {/* <p className='f3'>
-        {'This Color Model will detect dominant colors in your pictures.'}
-      </p> */}
-      <div className='mw7 center pa3'>
-        {/* <div className='bg-red center pa4 br4 shadow-5'> */}
-        <div className='form-input-image'> 
-          <input className='f4 pa2 w-70 center' placeholder="Your Image Link" type='text' 
-          onChange={onInputChange}/>
-          <Button color="default" variant="contained" onClick={onButtonSubmit}>DETECT</Button>
-          {/* <button
-            className='w-30 grow f4 link ph3 pv2 dib blue '
-            onClick={onButtonSubmit}
-          >Detect</button> */}
-        </div>
-      </div>
+        <div className='mw7 center pa3'>
+          <div className='form-input-image'> 
+            <input className='f4 pa2 w-70 center' placeholder="Your Image Link" type='text' 
+            onChange={onInputChange}/>
+            <Button color="default" variant="contained" onClick={onButtonSubmit}>DETECT</Button>
+          </div>
+       </div>
     </Container>
   );
 }

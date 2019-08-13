@@ -82,8 +82,6 @@ onButtonSubmit = () => {
                 })
                 .then(response => response.json())
                  .then(response => {
-                  console.log('resp323:', response[0])
-                  console.log('id in system: ', this.props.user.id)
                   fetch('http://localhost:3000/image', {
                   method: 'put',
                   headers: {'Content-Type': 'application/json'},
@@ -93,7 +91,6 @@ onButtonSubmit = () => {
                 })   
                 .then(response => response.json())
                 .then(count => {
-                    console.log('entries2: ', count)
                     this.setState(Object.assign(this.state.entries, { entries: count}))
                   })
                 .catch(console.log)

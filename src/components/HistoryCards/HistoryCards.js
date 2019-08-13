@@ -9,7 +9,6 @@ class HistoryCards extends React.Component {
     }
   }
 componentDidMount(){
-//  console.log('history mount: ', this.props.location.state.id)
   const {id} = this.props.location.state
   fetch('http://localhost:3000/history', {
       method: 'post',
@@ -20,7 +19,6 @@ componentDidMount(){
     })
     .then(response => response.json())
     .then(response => {
-  //    console.log('historyresp:', response)
       this.setState({responsedata: response})
     })
     .catch(error => console.log(error))
@@ -35,7 +33,6 @@ componentDidMount(){
     })
     .then(response => response.json())
     .then(response => {
-    //  console.log('resp234: ', response)
       this.setState({responsedata: response})
     })
     .catch(error => console.log(error))
@@ -43,8 +40,6 @@ componentDidMount(){
 
   render(){
 
- //   const {id} = this.props.location.state
- //   this.fetchHistoryData(id)
     console.log('history13: ', this.state.responsedata)
     return(
     <div>
