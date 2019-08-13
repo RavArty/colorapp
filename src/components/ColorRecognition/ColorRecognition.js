@@ -1,12 +1,19 @@
 import React from 'react';
 import Color from './Color'
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-class ColorRecognition extends React.Component  {
+const useStyles = makeStyles(theme => ({
+    progress: {
+      margin: theme.spacing(2),
+    },
+  }));
+
+const ColorRecognition = ({colors, imgUrl}) =>  {
 
 
-  render(){
-    
-    const { colors, imgUrl} = this.props
+
+  const classes = useStyles();
 
   return (
   	<div className = 'center'>	
@@ -17,8 +24,8 @@ class ColorRecognition extends React.Component  {
                 <img alt='' src={imgUrl} width='500px' height='auto'/>
               </th>
               <th className = 'pa2'>
-                {!colors
-                  ? <div></div>
+                {!colors.length && imgUrl
+                  ? <CircularProgress className={classes.progress} />
                   :
                 
                 colors.map((color, i) =>{
@@ -38,7 +45,7 @@ class ColorRecognition extends React.Component  {
 	    </table>
     </div>
   );
-  }
+
   
 }
 

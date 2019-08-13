@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import Navigation from '../../components/Navigation/Navigation';
-import Signin from '../../components/Signin/Signin';
-import Register from '../../components/Register/Register';
-import Logo from '../../components/Logo/Logo';
 import Rank from '../../components/Rank/Rank';
 import ImageLinkForm from '../../components/ImageLinkForm/ImageLinkForm';
 import ColorRecognition from '../../components/ColorRecognition/ColorRecognition';
 import ButtonToHistory from '../../components/HistoryCards/ButtonToHistory';
-
-
 
 
 class Main extends Component {
@@ -21,17 +15,32 @@ class Main extends Component {
       isSignedIn: false,
       entries: 0,
       colors: [],
+      colorsTest: [],
     }
   }
 
- 
-
-
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
-  console.log('clarifaiColors: ', clarifaiColors)
+//  console.log('clarifaiColors: ', clarifaiColors)
   this.setState(Object.assign(this.state.colors, { colors: clarifaiColors}))
 }
+
+parseColors = (data) => {
+  const colorArr = []
+  const colors = data.outputs[0].data.colors
+  colors.map((color, i) =>{
+     return colorArr.push(color.raw_hex, (color.value * 100).toFixed(2))
+  //   return(
+  //   <Color
+  //     key={i}
+  //     colorCode = {color.raw_hex}
+  //     value = {color.value}
+  //   />
+  // );
+  })
+console.log('colorArr: ', colorArr)
+}
+
 onInputChange = (event) => {
   this.setState({input: event.target.value})
 }
@@ -48,8 +57,19 @@ onButtonSubmit = () => {
     })
     .then(response => response.json())
     .then(response => {
-
         this.keepColors(response)  // update colors with fetched values 
+        const colorArr = []
+        const colorArrValue = []
+        const colors = response.outputs[0].data.colors
+        colors.map((color, i) =>{
+          
+          return (colorArr.push(color.raw_hex),
+                  colorArrValue.push((color.value * 100).toFixed(2))
+                  )
+        })
+       // const colors = this.parseColors(response)
+      //  console.log('colors in post: ', colorArr)
+      //  console.log('colors in values: ', colorArrValue)
         if(this.props.user){
           fetch('http://localhost:3000/postcolors', {
                   method: 'post',
@@ -57,7 +77,9 @@ onButtonSubmit = () => {
                   body: JSON.stringify({
                     input: this.state.input,
                     id: this.props.user.id,
-                    colors: response.outputs[0].data.colors
+                    colors: colorArr,
+                    colorValue: colorArrValue
+                    //colors: response.outputs[0].data.colors
                   })
                 })   
                 .then(response => response.json())
@@ -76,7 +98,6 @@ render() {
     if(user !== null) {
     useComponent = 
         <div>
-          {/* <Logo/> */}
           <Rank name={user.displayName} entries={user.entries}/> 
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
@@ -85,7 +106,6 @@ render() {
     }else{
     useComponent = 
       <div>
-        {/* <Logo/> */}
         <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
         <ColorRecognition colors={colors} imgUrl={imgUrl}/>
       </div>

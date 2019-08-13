@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card'
+import Cards from './Cards'
 
 class HistoryCards extends React.Component {
   constructor(props){
@@ -9,7 +9,7 @@ class HistoryCards extends React.Component {
     }
   }
 componentDidMount(){
-  console.log('history mount: ', this.props.location.state.id)
+//  console.log('history mount: ', this.props.location.state.id)
   const {id} = this.props.location.state
   fetch('http://localhost:3000/history', {
       method: 'post',
@@ -35,6 +35,7 @@ componentDidMount(){
     })
     .then(response => response.json())
     .then(response => {
+    //  console.log('resp234: ', response)
       this.setState({responsedata: response})
     })
     .catch(error => console.log(error))
@@ -44,16 +45,17 @@ componentDidMount(){
 
  //   const {id} = this.props.location.state
  //   this.fetchHistoryData(id)
- //   console.log('history: ', this.state.responsedata[0])
+    console.log('history13: ', this.state.responsedata)
     return(
     <div>
       {
 			this.state.responsedata.map((img, i) =>{
 				return( 
-					<Card 
+					<Cards
 						key={i} 
             imgurl={this.state.responsedata[i].imgurl} 
             colors = {this.state.responsedata[i].colors}
+            values = {this.state.responsedata[i].colorvalues}
             
 					/>
 				);

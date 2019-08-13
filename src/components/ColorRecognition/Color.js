@@ -4,7 +4,6 @@ import { Circle } from 'react-shapes'
 class Color extends React.Component {
 
   render(){
-    
     return (
     <div >
       <div className = 'mw8 pa2 center br4 shadow-3'>

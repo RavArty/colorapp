@@ -16,6 +16,9 @@ class Rank extends React.Component {
       {/* <div className='black f3 mt5'>
         {`Hi ${name}, upload any image...`}
       </div> */}
+      <Typography variant="h4">
+        {`Uploaded images: ${entries}`}
+      </Typography>
       {/* <div className='black f1'>
         {entries}
       </div> */}
