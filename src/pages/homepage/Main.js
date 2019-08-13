@@ -8,6 +8,7 @@ import ButtonToHistory from '../../components/HistoryCards/ButtonToHistory';
 class Main extends Component {
   constructor(props){
     super(props)
+    
     this.state = {
       user: null,
       input: '',
@@ -19,7 +20,11 @@ class Main extends Component {
       colorsTest: [],
     }
   }
-
+componentDidMount(){
+  if (this.props.user){
+    this.setState(Object.assign(this.state.entries, { entries: this.props.user.entries}))
+  }
+}
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
@@ -63,7 +68,7 @@ onButtonSubmit = () => {
         const colorArr = []
         const colorArrValue = []
         const colors = response.outputs[0].data.colors
-        colors.map((color, i) =>{
+        colors.map((color, i) => {
           
           return (colorArr.push(color.raw_hex),
                   colorArrValue.push((color.value * 100).toFixed(2))
@@ -85,25 +90,23 @@ onButtonSubmit = () => {
                   })
                 })
                 .then(response => response.json())
-                // .then(response => {
-                //   console.log('resp323:', response)
-                //   response.json()
-                // })
-                // .then(response => {
-                //   console.log('last step: ', response)
-                //   fetch('http://localhost:3000/image', {
-                //   method: 'post',
-                //   headers: {'Content-Type': 'application/json'},
-                //   body: JSON.stringify({
-                //     id: this.props.user.id,
-                //   })
-                // })   
-                // .then(response => response.json())
-                // .then(count => {
-                //     this.setState(Object.assign(this.state.entries, { entries: count}))
-                //   })
-                // .catch(console.log)
-                // })
+                 .then(response => {
+                  console.log('resp323:', response[0])
+                  console.log('id in system: ', this.props.user.id)
+                  fetch('http://localhost:3000/image', {
+                  method: 'put',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    id: response[0],
+                  })
+                })   
+                .then(response => response.json())
+                .then(count => {
+                    console.log('entries2: ', count)
+                    this.setState(Object.assign(this.state.entries, { entries: count}))
+                  })
+                .catch(console.log)
+                 })
                 .catch(err => console.log('unable to post colors: ', err))
                 //.catch(err => console.log(err));
               }
@@ -118,11 +121,7 @@ render() {
   const { colors, imgUrl, entries } = this.state
   let useComponent  //depends on route state
   let finalEntries = 0
-  // if (entries >= JSON.stringify(user.entries)){
-  //   finalEntries = entries
-  // }else {
-  //   finalEntries = user.entries
-  // }
+
     if(user !== null) {
     useComponent = 
         <div>

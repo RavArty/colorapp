@@ -38,7 +38,7 @@ const Cards = (props) => {
 		 	colorsCombine.push(singleValue)	
 		 	singleValue = []
 		 }
-		 console.log('colorsCombine: ', colorsCombine)
+	//	 console.log('colorsCombine: ', colorsCombine)
 		//console.log(colors)
 		return(
 			<div className='header-cards'>
