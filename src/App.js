@@ -38,7 +38,8 @@ class App extends Component {
 
   registerUserInDB = (id, data) => {
     if (!id) return
-      fetch('http://localhost:3000/checkuser', {
+    fetch('https://warm-forest-93262.herokuapp.com/checkuser', { 
+     // fetch('http://localhost:3000/checkuser', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -47,7 +48,8 @@ class App extends Component {
       })
         .then(response => {
           if (response.status === 204){
-            fetch('http://localhost:3000/register', {
+            fetch('https://warm-forest-93262.herokuapp.com/register', { 
+          //  fetch('http://localhost:3000/register', {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -59,7 +61,8 @@ class App extends Component {
               .then(response => response.json())
               .catch(err => console.log('user not registered in db', err))
         } else {
-          fetch('http://localhost:3000/entries', {
+          fetch('https://warm-forest-93262.herokuapp.com/entries', { 
+        //  fetch('http://localhost:3000/entries', {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({

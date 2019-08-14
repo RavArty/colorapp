@@ -47,8 +47,8 @@ onInputChange = (event) => {
 
 onButtonSubmit = () => {
   this.setState({imgUrl: this.state.input})
-    fetch('http://localhost:3000/imageurl', {
-  //  fetch('https://warm-forest-93262.herokuapp.com/imageurl', {
+  //  fetch('http://localhost:3000/imageurl', {
+    fetch('https://warm-forest-93262.herokuapp.com/imageurl', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -70,7 +70,8 @@ onButtonSubmit = () => {
         })
         //----------------------------------------------------------------
         if(this.props.user){
-          fetch('http://localhost:3000/postcolors', {
+          fetch('https://warm-forest-93262.herokuapp.com/postcolors', {
+        //  fetch('http://localhost:3000/postcolors', {
                   method: 'post',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({
@@ -82,7 +83,8 @@ onButtonSubmit = () => {
                 })
                 .then(response => response.json())
                  .then(response => {
-                  fetch('http://localhost:3000/image', {
+                  fetch('https://warm-forest-93262.herokuapp.com/image', {
+                //  fetch('http://localhost:3000/image', {
                   method: 'put',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({
