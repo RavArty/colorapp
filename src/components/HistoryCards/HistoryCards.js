@@ -10,7 +10,8 @@ class HistoryCards extends React.Component {
   }
 componentDidMount(){
   const {id} = this.props.location.state
-  fetch('http://localhost:3000/history', {
+//  fetch('http://localhost:3000/history', {
+  fetch('https://warm-forest-93262.herokuapp.com/history', { 
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -24,7 +25,8 @@ componentDidMount(){
     .catch(error => console.log(error))
 }
   fetchHistoryData = (id) => {
-    fetch('http://localhost:3000/history', {
+    fetch('https://warm-forest-93262.herokuapp.com/history', { 
+  //  fetch('http://localhost:3000/history', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
