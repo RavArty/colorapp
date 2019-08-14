@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from './pages/homepage/Main.js'
 import SignIn from './components/Signin/Signin'
-import SignUp from './components/Signup/Signup'
+import Signup from './components/Signup/Signup'
 import Header from './components/Header/Header'
 import HistoryCards from './components/HistoryCards/HistoryCards';
 
@@ -128,7 +128,7 @@ class App extends Component {
             render={() => 
               this.state.currentUser ? (
                     <Redirect to='/' />
-                  ) : (<SignUp/>)}/>
+                  ) : (<Signup/>)}/>
             </Switch>
         </MuiThemeProvider>
     </div>
