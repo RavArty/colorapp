@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from './pages/homepage/Main.js'
 import SignIn from './components/Signin/Signin'
-//import SignUp from './components/Signup/Signup'
+import SignUp from './components/Signup/Signup'
 import Header from './components/Header/Header'
 import HistoryCards from './components/HistoryCards/HistoryCards';
 
@@ -124,11 +124,11 @@ class App extends Component {
               this.state.currentUser ? (
                     <Redirect to='/' />
                   ) : (<SignIn/>)}/>
-            {/* <Route exact path='/signup' 
+            <Route exact path='/signup' 
             render={() => 
               this.state.currentUser ? (
                     <Redirect to='/' />
-                  ) : (<SignUp />)}/> */}
+                  ) : (<SignUp/>)}/>
             </Switch>
         </MuiThemeProvider>
     </div>
