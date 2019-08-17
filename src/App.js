@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from './pages/homepage/Main.js'
 import SignIn from './components/Signin/Signin'
@@ -9,6 +10,8 @@ import HistoryCards from './components/HistoryCards/HistoryCards';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { setCurrentUser } from './redux/user/user.actions';
+import { setEntries } from './redux/user/user.actions';
 import settings from './settings';
 import './App.css';
 
@@ -22,24 +25,27 @@ let theme = createMuiTheme({
 
 class App extends Component {
  
-  constructor(){
-    super()
-    this.state = {
-      currentUser: null,
-   //   entries: 0
-    }
-  }
+  // constructor(){
+  //   super()
+  //   this.state = {
+  //     currentUser: null,
+  //  //   entries: 0
+  //   }
+  // }
 
   updateUserWithEntries = (data) => {
-    this.setState(Object.assign(this.state.currentUser, { entries: data[0].entries}))
+    console.log("update entries: ", data[0].entries)
+    this.props.setEntries(data[0].entries)
+  //  Object.assign(this.props.setCurrentUser, { entries: data[0].entries})
+   // this.setState(Object.assign(this.state.currentUser, { entries: data[0].entries}))
   }
 
   unsubscribeFromAuth = null
 
   registerUserInDB = (id, data) => {
     if (!id) return
-    fetch('https://warm-forest-93262.herokuapp.com/checkuser', { 
-     // fetch('http://localhost:3000/checkuser', {
+  // fetch('https://warm-forest-93262.herokuapp.com/checkuser', { 
+      fetch('http://localhost:3000/checkuser', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -48,8 +54,8 @@ class App extends Component {
       })
         .then(response => {
           if (response.status === 204){
-            fetch('https://warm-forest-93262.herokuapp.com/register', { 
-          //  fetch('http://localhost:3000/register', {
+          //  fetch('https://warm-forest-93262.herokuapp.com/register', { 
+            fetch('http://localhost:3000/register', {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -61,8 +67,8 @@ class App extends Component {
               .then(response => response.json())
               .catch(err => console.log('user not registered in db', err))
         } else {
-          fetch('https://warm-forest-93262.herokuapp.com/entries', { 
-        //  fetch('http://localhost:3000/entries', {
+        //  fetch('https://warm-forest-93262.herokuapp.com/entries', { 
+          fetch('http://localhost:3000/entries', {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -80,21 +86,23 @@ class App extends Component {
 
   componentDidMount(){
     //returns a func
+    const { setCurrentUser } = this.props
+
     this.unsubscribeFromAuth =  auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth)
         userRef.onSnapshot(snapShot => {
           
-          this.setState({
-            currentUser: {
+          setCurrentUser({
+             
               id: snapShot.id,
               ...snapShot.data()
-            }  
+            
           })
           this.registerUserInDB(snapShot.id, snapShot.data())
         })
       }else{
-        this.setState({currentUser: userAuth})
+        setCurrentUser(userAuth)
       }
         
       
@@ -108,25 +116,26 @@ class App extends Component {
 
 
   render(){
-    const {currentUser} = this.state
- // console.log('user: ', currentUser)
+    const { currentUser } = this.props
       return (
     <div>
       <MuiThemeProvider theme={theme}>
-        <Header currentUser={currentUser}/>
+        <Header/>
+        {/* <Header currentUser={currentUser}/> */}
           <Switch>
             <Route exact path='/' component={() => 
-              <Main user={currentUser} />}
+            <Main/>}
+              // <Main user={currentUser} />}
             />
             <Route path='/history' component={HistoryCards} />
             <Route exact path='/signin' 
             render={() => 
-              this.state.currentUser ? (
+              currentUser ? (
                     <Redirect to='/' />
                   ) : (<SignIn/>)}/>
             <Route exact path='/signup' 
             render={() => 
-              this.state.currentUser ? (
+              currentUser ? (
                     <Redirect to='/' />
                   ) : (<Signup/>)}/>
             </Switch>
@@ -137,5 +146,16 @@ class App extends Component {
 
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  setEntries: entries => dispatch(setEntries(entries))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

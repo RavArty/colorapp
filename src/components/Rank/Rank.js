@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 class Rank extends React.Component {
-  constructor(props){
-    super(props)
-  }
+ 
 
   render(){
-    const { name, entries } = this.props
+    const { currentUser, entries } = this.props
+    let name = undefined
+    if(currentUser){
+      name = currentUser.displayName
+    }
     return (
     <div>
       <Typography variant="h4">
@@ -22,4 +25,9 @@ class Rank extends React.Component {
   
 }
 
-export default Rank;
+const mapStateToProps = ({ user: { currentUser }, user: {entries}}) => ({
+  currentUser,
+  entries
+});
+
+export default connect(mapStateToProps)(Rank);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Rank from '../../components/Rank/Rank';
 import ImageLinkForm from '../../components/ImageLinkForm/ImageLinkForm';
 import ColorRecognition from '../../components/ColorRecognition/ColorRecognition';
@@ -20,11 +21,11 @@ class Main extends Component {
       colorsTest: [],
     }
   }
-componentDidMount(){
-  if (this.props.user){
-    this.setState(Object.assign(this.state.entries, { entries: this.props.user.entries}))
-  }
-}
+// componentDidMount(){
+//   if (this.props.currentUser){
+//     this.setState(Object.assign(this.state.entries, { entries: this.props.currentUser.entries}))
+//   }
+// }
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
@@ -69,7 +70,7 @@ onButtonSubmit = () => {
                   )
         })
         //----------------------------------------------------------------
-        if(this.props.user){
+        if(this.props.currentUser){
           fetch('https://warm-forest-93262.herokuapp.com/postcolors', {
         //  fetch('http://localhost:3000/postcolors', {
                   method: 'post',
@@ -106,25 +107,27 @@ onButtonSubmit = () => {
 }
 
 render() {
-  const {user} = this.props
+
   const { colors, imgUrl, entries } = this.state
   let useComponent  //depends on route state
 
-    if(user !== null) {
+    // if(user !== null) {
     useComponent = 
         <div>
-          <Rank name={user.displayName} entries={entries}/> 
+          <Rank/> 
+          {/* <Rank name={user.displayName} entries={entries}/>  */}
           <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <ColorRecognition colors={colors} imgUrl={imgUrl}/>
-          <ButtonToHistory id={user.id}/>
+          <ButtonToHistory />
+          {/* <ButtonToHistory id={user.id}/> */}
         </div>
-    }else{
-    useComponent = 
-      <div>
-        <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-        <ColorRecognition colors={colors} imgUrl={imgUrl}/>
-      </div>
-   }
+  //   }else{
+  //   useComponent = 
+  //     <div>
+  //       <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+  //       <ColorRecognition colors={colors} imgUrl={imgUrl}/>
+  //     </div>
+  //  }
   
   return (
     <div className ='App'> 
@@ -134,4 +137,8 @@ render() {
 }
 }
 
-export default Main;
+const mapStateToProps = ({ user: { currentUser }}) => ({
+  currentUser
+});
+
+export default connect(mapStateToProps)(Main);
