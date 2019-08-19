@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import {createStructuredSelector} from 'reselect';
+
 import Main from './pages/homepage/Main.js'
 import SignIn from './components/Signin/Signin'
 import Signup from './components/Signup/Signup'
@@ -12,6 +14,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { setCurrentUser } from './redux/user/user.actions';
 import { setEntries } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
 import settings from './settings';
 import './App.css';
 
@@ -146,8 +149,8 @@ class App extends Component {
 
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({

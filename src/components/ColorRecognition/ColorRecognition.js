@@ -1,6 +1,9 @@
 import React, { Component} from 'react';
 import Color from './Color'
 import { connect } from 'react-redux'
+import {createStructuredSelector} from 'reselect';
+import { selectCurrentImageUrl } from '../../redux/image/image.selectors';
+import { selectCurrentImageCodes } from '../../redux/image/image.selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -54,9 +57,12 @@ const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
 
   
 }
-
-const mapStateToProps = ({image}) => ({
-  imageUrl: image.imageUrl,
-  imageCodes: image.imageCodes
+const mapStateToProps = (state) => ({
+  imageUrl: selectCurrentImageUrl(state),
+  imageCodes: selectCurrentImageCodes(state)
 })
+// const mapStateToProps = ({image}) => ({
+//   imageUrl: image.imageUrl,
+//   imageCodes: image.imageCodes
+// })
 export default connect(mapStateToProps)(ColorRecognition)

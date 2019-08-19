@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import {createStructuredSelector} from 'reselect';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -8,6 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import { setImageUrl } from '../../redux/image/image.actions';
 import { setImageCodes } from '../../redux/image/image.actions';
 import { setEntries } from '../../redux/user/user.actions';
+
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectCurrentImageUrl } from '../../redux/image/image.selectors';
+import { selectCurrentImageCodes } from '../../redux/image/image.selectors';
 
 import './ImageLinkForm.scss'
 
@@ -120,10 +125,10 @@ class ImageLinkForm extends Component {
   
 }
 
-const mapStateToProps = state => ({
-  imageUrl: state.image.imageUrl,
-  imageCodes: state.image.imageCodes,
-  currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector({
+  imageUrl: selectCurrentImageUrl,
+  imageCodes: selectCurrentImageCodes,
+  currentUser: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({

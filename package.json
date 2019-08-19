@@ -19,6 +19,8 @@
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
+    "reselect": "^4.0.0",
     "tachyons": "^4.11.1"
   },
   "scripts": {

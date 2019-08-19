@@ -1,6 +1,8 @@
 import React from 'react';
 import Cards from './Cards'
 import { connect } from 'react-redux'
+import {createStructuredSelector} from 'reselect';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 class HistoryCards extends React.Component {
   constructor(props){
@@ -11,7 +13,6 @@ class HistoryCards extends React.Component {
   }
 componentDidMount(){
   const {id} = this.props.currentUser
-  console.log("id: ", id)
   fetch('http://localhost:3000/history', {
 //  fetch('https://warm-forest-93262.herokuapp.com/history', { 
       method: 'post',
@@ -67,8 +68,8 @@ componentDidMount(){
   
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 })
 
 export default connect(mapStateToProps)(HistoryCards)
