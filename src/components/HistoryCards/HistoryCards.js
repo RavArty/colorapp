@@ -1,5 +1,6 @@
 import React from 'react';
 import Cards from './Cards'
+import { connect } from 'react-redux'
 
 class HistoryCards extends React.Component {
   constructor(props){
@@ -9,9 +10,10 @@ class HistoryCards extends React.Component {
     }
   }
 componentDidMount(){
-  const {id} = this.props.location.state
-//  fetch('http://localhost:3000/history', {
-  fetch('https://warm-forest-93262.herokuapp.com/history', { 
+  const {id} = this.props.currentUser
+  console.log("id: ", id)
+  fetch('http://localhost:3000/history', {
+//  fetch('https://warm-forest-93262.herokuapp.com/history', { 
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -25,8 +27,8 @@ componentDidMount(){
     .catch(error => console.log(error))
 }
   fetchHistoryData = (id) => {
-    fetch('https://warm-forest-93262.herokuapp.com/history', { 
-  //  fetch('http://localhost:3000/history', {
+  //  fetch('https://warm-forest-93262.herokuapp.com/history', { 
+    fetch('http://localhost:3000/history', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -42,7 +44,7 @@ componentDidMount(){
 
   render(){
 
-    console.log('history13: ', this.state.responsedata)
+  //  console.log('history13: ', this.state.responsedata)
     return(
     <div>
       {
@@ -65,4 +67,8 @@ componentDidMount(){
   
 }
 
-export default HistoryCards;
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+})
+
+export default connect(mapStateToProps)(HistoryCards)

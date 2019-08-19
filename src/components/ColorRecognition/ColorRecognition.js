@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component} from 'react';
 import Color from './Color'
+import { connect } from 'react-redux'
+
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -9,11 +11,15 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const ColorRecognition = ({colors, imgUrl}) =>  {
+const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
 
 
 
-  const classes = useStyles();
+   const classes = useStyles();
+  // const colors = []
+  // if(imageCodes){
+  //   colors = imageCodes 
+  // }
 
   return (
   	<div className = 'center'>	
@@ -21,14 +27,14 @@ const ColorRecognition = ({colors, imgUrl}) =>  {
           <tbody>
             <tr>
               <th className = 'pa2'>
-                <img alt='' src={imgUrl} width='500px' height='auto'/>
+                <img alt='' src={imageUrl} width='500px' height='auto'/>
               </th>
               <th className = 'pa2'>
-                {!colors.length && imgUrl
+                {(!imageCodes && imageUrl)
                   ? <CircularProgress className={classes.progress} />
                   :
                 
-                colors.map((color, i) =>{
+                  imageCodes.map((color, i) =>{
                   return(
                   <Color
                     key={i}
@@ -49,4 +55,8 @@ const ColorRecognition = ({colors, imgUrl}) =>  {
   
 }
 
-export default ColorRecognition;
+const mapStateToProps = ({image}) => ({
+  imageUrl: image.imageUrl,
+  imageCodes: image.imageCodes
+})
+export default connect(mapStateToProps)(ColorRecognition)

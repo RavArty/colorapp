@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import './ButtonHistory.scss'
 
-const ButtonToHistory = ({ id }) => {
+const ButtonToHistory = ({ currentUser }) => {
 
     return(
     <div style={{marginBottom: '30px'}}>
-      <Link className='button-history' to={{pathname: '/history',
-            state : {id: id}}}>
+      <Link className='button-history' to={{pathname: '/history'}}>
+      {/* <Link className='button-history' to={{pathname: '/history',
+            state : {id: currentUser.id}}}> */}
         <Button size="large" variant="contained" color="primary">
           History
         </Button>
@@ -20,4 +22,7 @@ const ButtonToHistory = ({ id }) => {
   
 }
 
-export default ButtonToHistory;
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+})
+export default connect(mapStateToProps)(ButtonToHistory)

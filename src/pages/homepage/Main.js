@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import Rank from '../../components/Rank/Rank';
 import ImageLinkForm from '../../components/ImageLinkForm/ImageLinkForm';
 import ColorRecognition from '../../components/ColorRecognition/ColorRecognition';
 import ButtonToHistory from '../../components/HistoryCards/ButtonToHistory';
 
+import { setImageUrl } from '../../redux/image/image.actions';
+import { setImageCodes } from '../../redux/image/image.actions';
+import { setEntries } from '../../redux/user/user.actions';
 
 class Main extends Component {
   constructor(props){
     super(props)
     
     this.state = {
-      user: null,
       input: '',
       imgUrl: '',
-      route: 'testHome',
-      isSignedIn: false,
-      entries: 0,
       colors: [],
       colorsTest: [],
     }
@@ -29,8 +29,9 @@ class Main extends Component {
 
 keepColors = (data) => {
   const clarifaiColors = data.outputs[0].data.colors
+  this.props.setImageCodes(clarifaiColors)
 //  console.log('clarifaiColors: ', clarifaiColors)
-  this.setState(Object.assign(this.state.colors, { colors: clarifaiColors}))
+//  this.setState(Object.assign(this.state.colors, { colors: clarifaiColors}))
 }
 
 parseColors = (data) => {
@@ -43,17 +44,19 @@ console.log('colorArr: ', colorArr)
 }
 
 onInputChange = (event) => {
-  this.setState({input: event.target.value})
+//  this.setState({input: event.target.value})
+  this.props.setImageUrl(event.target.value)
 }
 
 onButtonSubmit = () => {
-  this.setState({imgUrl: this.state.input})
+//  this.setState({imgUrl: this.state.input})
   //  fetch('http://localhost:3000/imageurl', {
     fetch('https://warm-forest-93262.herokuapp.com/imageurl', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        input: this.state.input,
+        input: this.props.imageUrl
+      //  input: this.state.input,
       })
     })
     .then(response => response.json())
@@ -66,7 +69,7 @@ onButtonSubmit = () => {
         colors.map((color, i) => {
           
           return (colorArr.push(color.raw_hex),
-                  colorArrValue.push((color.value * 100).toFixed(2))
+                  colorArrValue.push((color.value).toFixed(2))
                   )
         })
         //----------------------------------------------------------------
@@ -76,7 +79,8 @@ onButtonSubmit = () => {
                   method: 'post',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({
-                    input: this.state.input,
+                    input: this.props.imageUrl,
+                  //  input: this.state.input,
                     id: this.props.user.id,
                     colors: colorArr,
                     colorValue: colorArrValue
@@ -94,7 +98,8 @@ onButtonSubmit = () => {
                 })   
                 .then(response => response.json())
                 .then(count => {
-                    this.setState(Object.assign(this.state.entries, { entries: count}))
+                  this.props.setEntries(count)
+                  //  this.setState(Object.assign(this.state.entries, { entries: count}))
                   })
                 .catch(console.log)
                  })
@@ -107,27 +112,29 @@ onButtonSubmit = () => {
 }
 
 render() {
-
-  const { colors, imgUrl, entries } = this.state
+  const { currentUser } = this.props
+//  const { colors, imgUrl, entries } = this.state
   let useComponent  //depends on route state
 
-    // if(user !== null) {
+  if(currentUser !== null) {
     useComponent = 
         <div>
           <Rank/> 
+          <ImageLinkForm/>
+          <ColorRecognition/> 
           {/* <Rank name={user.displayName} entries={entries}/>  */}
-          <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-          <ColorRecognition colors={colors} imgUrl={imgUrl}/>
+          {/* <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+          <ColorRecognition colors={colors} imgUrl={imgUrl}/> */}
           <ButtonToHistory />
           {/* <ButtonToHistory id={user.id}/> */}
         </div>
-  //   }else{
-  //   useComponent = 
-  //     <div>
-  //       <ImageLinkForm onInputChange = {this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-  //       <ColorRecognition colors={colors} imgUrl={imgUrl}/>
-  //     </div>
-  //  }
+    }else{
+    useComponent = 
+      <div>
+        <ImageLinkForm />
+        <ColorRecognition />
+      </div>
+   }
   
   return (
     <div className ='App'> 
@@ -137,8 +144,16 @@ render() {
 }
 }
 
-const mapStateToProps = ({ user: { currentUser }}) => ({
-  currentUser
+const mapStateToProps = ({ image, user }) => ({
+  imageUrl: image.imageUrl,
+  imageCodes: image.codes,
+  currentUser: user.currentUser
 });
 
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = dispatch => ({
+  setImageUrl: image => dispatch(setImageUrl(image)),
+  setImageCodes: codes => dispatch(setImageCodes(codes)),
+  setEntries: entries => dispatch(setEntries(entries))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
