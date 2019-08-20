@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.utils'
+import { connect } from 'react-redux'
+import {createStructuredSelector} from 'reselect';
+
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,9 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import './Header.scss'
 
@@ -21,13 +22,8 @@ const styles = (theme) => ({
   }
 });
 
-class Header extends React.Component {
+export const Header = ({classes, currentUser}) => (
 
-
-  render() {
-    const { classes,currentUser } = this.props;
-
-    return(
       <AppBar className='header-appbar' color="primary" position="static">
         <Toolbar variant="regular">
           <Link to='/'>
@@ -37,30 +33,37 @@ class Header extends React.Component {
             </IconButton>
           </Link>
           <Typography style={{ flexGrow: 1 }} color="inherit" variant="h6">COLORS</Typography>
-          {currentUser ? (
-              <Button color="secondary" variant="contained" onClick={() => auth.signOut()}>
-                SIGN OUT
-              </Button>
-          ) : (
+          {currentUser ? 
+              <div>
+                <Button className='btn-signOut'color="secondary" variant="contained" onClick={() => auth.signOut()}>
+                  SIGN OUT
+                </Button>
+              </div>
+           : (
             <>
             <Link className='button' to='/signup'>
-              <Button className={classes.signUpButton} color="secondary" variant="contained" >Sign Up</Button>
+              <div>
+                <Button className={classes.signUpButton} color="secondary" variant="contained" >Sign Up</Button>
+              </div>
             </Link>  
             <Link className='button' to='/signin'>
-              <Button color="secondary" variant="contained" >Sign in</Button>
+              <div>
+                <Button color="secondary" variant="contained" >Sign in</Button>
+              </div>
             </Link>
             </>
           )}
         </Toolbar>
       </AppBar>
       
-  )
-  }
-}
-  
+
+)
 
   
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+})
 
 
-export default withStyles(styles)(Header);
+export default connect(mapStateToProps)(withStyles(styles)(Header));
 //export default Header

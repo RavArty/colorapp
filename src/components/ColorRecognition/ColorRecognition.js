@@ -57,9 +57,9 @@ const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
 
   
 }
-const mapStateToProps = (state) => ({
-  imageUrl: selectCurrentImageUrl(state),
-  imageCodes: selectCurrentImageCodes(state)
+const mapStateToProps = createStructuredSelector({
+  imageUrl: selectCurrentImageUrl,
+  imageCodes: selectCurrentImageCodes
 })
 // const mapStateToProps = ({image}) => ({
 //   imageUrl: image.imageUrl,
