@@ -14,6 +14,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectCurrentImageUrl } from '../../redux/image/image.selectors';
 import { selectCurrentImageCodes } from '../../redux/image/image.selectors';
 
+import * as Constants from '../../constants.js'
 import './ImageLinkForm.scss'
 
 
@@ -30,25 +31,18 @@ class ImageLinkForm extends Component {
   keepColors = (data) => {
       const clarifaiColors = data.outputs[0].data.colors
       this.props.setImageCodes(clarifaiColors)
-    //  console.log('clarifaiColors: ', clarifaiColors)
-    //  this.setState(Object.assign(this.state.colors, { colors: clarifaiColors}))
     }
 
   onInputChange = (event) => {
     this.setState({input: event.target.value})
-  //  this.props.setImageUrl(event.target.value)
   }
 
   onButtonSubmit = () => {
-    console.log('button submit')
     this.props.setImageUrl(this.state.input)
-    //  this.setState({imgUrl: this.state.input})
-        fetch('http://localhost:3000/imageurl', {
-      //  fetch('https://warm-forest-93262.herokuapp.com/imageurl', {
+        fetch(Constants.imageURL, {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-          //  input: this.props.imageUrl
             input: this.state.input,
           })
         })
@@ -68,13 +62,10 @@ class ImageLinkForm extends Component {
             })
             //----------------------------------------------------------------
             if(this.props.currentUser){
-              console.log('button submit 2')
-            //  fetch('https://warm-forest-93262.herokuapp.com/postcolors', {
-              fetch('http://localhost:3000/postcolors', {
+              fetch(Constants.postColorsInDB, {
                       method: 'post',
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
-                      //  input: this.props.imageUrl,
                         input: this.state.input,
                         id: this.props.currentUser.id,
                         colors: colorArr,
@@ -83,8 +74,7 @@ class ImageLinkForm extends Component {
                     })
                     .then(response => response.json())
                      .then(response => {
-                    //  fetch('https://warm-forest-93262.herokuapp.com/image', {
-                      fetch('http://localhost:3000/image', {
+                      fetch(Constants.incrementEntries, {
                       method: 'put',
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
@@ -94,7 +84,6 @@ class ImageLinkForm extends Component {
                     .then(response => response.json())
                     .then(count => {
                       this.props.setEntries(count)
-                      //  this.setState(Object.assign(this.state.entries, { entries: count}))
                       })
                     .catch(console.log)
                      })
