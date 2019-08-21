@@ -28,7 +28,7 @@ export const Header = ({classes, currentUser}) => (
         <Toolbar variant="regular">
           <Link to='/'>
             <IconButton edge="start" color="inherit" aria-label="menu">
-              <img src="https://i.ibb.co/YPFSJSg/multi-colors-in-circle-udt-2-2.png"
+              <img src="https://i.ibb.co/YPFSJSg/multi-colors-in-circle-udt-2-2.png" alt=''
                 style={{ height: 50, width: 50 }}/>
             </IconButton>
           </Link>
