@@ -12,10 +12,14 @@ import HistoryCards from './components/HistoryCards/HistoryCards';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
 import { setCurrentUser } from './redux/user/user.actions';
 import { setEntries } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
 import settings from './settings';
+import * as Constants from './constants'
+
 import './App.css';
 
 let theme = createMuiTheme({
@@ -27,28 +31,17 @@ let theme = createMuiTheme({
 });
 
 class App extends Component {
- 
-  // constructor(){
-  //   super()
-  //   this.state = {
-  //     currentUser: null,
-  //  //   entries: 0
-  //   }
-  // }
+
 
   updateUserWithEntries = (data) => {
-    console.log("update entries: ", data[0].entries)
     this.props.setEntries(data[0].entries)
-  //  Object.assign(this.props.setCurrentUser, { entries: data[0].entries})
-   // this.setState(Object.assign(this.state.currentUser, { entries: data[0].entries}))
   }
 
   unsubscribeFromAuth = null
 
   registerUserInDB = (id, data) => {
     if (!id) return
-  // fetch('https://warm-forest-93262.herokuapp.com/checkuser', { 
-      fetch('http://localhost:3000/checkuser', {
+      fetch(Constants.isUserInDBURL, {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -57,8 +50,7 @@ class App extends Component {
       })
         .then(response => {
           if (response.status === 204){
-          //  fetch('https://warm-forest-93262.herokuapp.com/register', { 
-            fetch('http://localhost:3000/register', {
+            fetch(Constants.registerUserURL, {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -70,8 +62,7 @@ class App extends Component {
               .then(response => response.json())
               .catch(err => console.log('user not registered in db', err))
         } else {
-        //  fetch('https://warm-forest-93262.herokuapp.com/entries', { 
-          fetch('http://localhost:3000/entries', {
+          fetch(Constants.fetchEntriesURL, {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -107,8 +98,6 @@ class App extends Component {
       }else{
         setCurrentUser(userAuth)
       }
-        
-      
     })
   }
 
@@ -120,30 +109,26 @@ class App extends Component {
 
   render(){
     const { currentUser } = this.props
-      return (
-    <div>
-      <MuiThemeProvider theme={theme}>
-        <Header/>
-        {/* <Header currentUser={currentUser}/> */}
-          <Switch>
-            <Route exact path='/' component={() => 
-            <Main/>}
-              // <Main user={currentUser} />}
-            />
-            <Route path='/history' component={HistoryCards} />
-            <Route exact path='/signin' 
-            render={() => 
-              currentUser ? (
-                    <Redirect to='/' />
-                  ) : (<SignIn/>)}/>
-            <Route exact path='/signup' 
-            render={() => 
-              currentUser ? (
-                    <Redirect to='/' />
-                  ) : (<Signup/>)}/>
-            </Switch>
-        </MuiThemeProvider>
-    </div>
+    return (
+      <div>
+        <MuiThemeProvider theme={theme}>
+          <Header/>
+            <Switch>
+              <Route exact path='/' component={() => <Main/>}/>
+              <Route path='/history' component={HistoryCards} />
+              <Route exact path='/signin' 
+              render={() => 
+                currentUser ? (
+                    <Redirect to='/' /> )
+                    : (<SignIn/>)}/>
+              <Route exact path='/signup' 
+              render={() => 
+                currentUser ? (
+                      <Redirect to='/' /> )
+                      : (<Signup/>)}/>
+              </Switch>
+          </MuiThemeProvider>
+      </div>
   );
   }
 

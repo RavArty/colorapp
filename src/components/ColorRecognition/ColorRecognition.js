@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React from 'react';
 import Color from './Color'
 import { connect } from 'react-redux'
 import {createStructuredSelector} from 'reselect';
@@ -16,13 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
 
-
-
    const classes = useStyles();
-  // const colors = []
-  // if(imageCodes){
-  //   colors = imageCodes 
-  // }
 
   return (
   	<div className = 'center'>	
@@ -35,16 +29,14 @@ const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
               <th className = 'pa2'>
                 {(!imageCodes && imageUrl)
                   ? <CircularProgress className={classes.progress} />
-                  :
-                
-                  imageCodes.map((color, i) =>{
+                  : imageCodes.map((color, i) =>{
                   return(
-                  <Color
-                    key={i}
-                    colorCode = {color.raw_hex}
-                    value = {color.value}
-                  />
-                );
+                    <Color
+                      key={i}
+                      colorCode = {color.raw_hex}
+                      value = {color.value}
+                    />
+                  )
                 })
                
               }   
@@ -61,8 +53,5 @@ const mapStateToProps = createStructuredSelector({
   imageUrl: selectCurrentImageUrl,
   imageCodes: selectCurrentImageCodes
 })
-// const mapStateToProps = ({image}) => ({
-//   imageUrl: image.imageUrl,
-//   imageCodes: image.imageCodes
-// })
+
 export default connect(mapStateToProps)(ColorRecognition)
