@@ -4,8 +4,6 @@ import FormInput from '../formInput/formInput'
 
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-//import Avatar from './node_modules/@material-ui/core/Avatar';
-//import LockOutlinedIcon from './node_modules/@material-ui/icons/LockOutlined';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './Signup.scss';
@@ -38,7 +36,7 @@ class Signup extends React.Component {
         email,
         password
       );
-      const userRef = await createUserProfileDocument(user, { displayName }); 
+      await createUserProfileDocument(user, { displayName }); 
 
       this.setState({
         displayName: '',
@@ -58,7 +56,6 @@ class Signup extends React.Component {
   };
 
   render() {
-    const {classes} = this.props
     const { displayName, email, password, confirmPassword } = this.state;
     return (
       <Container className='header' maxWidth="sm">

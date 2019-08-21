@@ -22,18 +22,18 @@ class SignIn extends React.Component {
     const { email, password } = this.state
     try{
       await auth.signInWithEmailAndPassword(email, password)
-      this.setState({email: '', password: ''})
+    //  this.setState({email: '', password: ''})
     }catch (error) {
       console.log(error)
     }
     
   }
+
   handleChange = (event) => {
     const { value, name } = event.target
     this.setState({[name]: value})
     }
   render() {
-    const {classes} = this.props
     return (
       <Container className='header' maxWidth="sm">  
         <h2 className='title'>Sign In</h2>

@@ -86,12 +86,9 @@ class App extends Component {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth)
         userRef.onSnapshot(snapShot => {
-          
           setCurrentUser({
-             
               id: snapShot.id,
-              ...snapShot.data()
-            
+              ...snapShot.data()  
           })
           this.registerUserInDB(snapShot.id, snapShot.data())
         })
