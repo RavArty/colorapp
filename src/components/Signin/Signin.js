@@ -1,6 +1,6 @@
 import React from 'react'
 import FormInput from '../formInput/formInput'
-import CustomButton from '../customButton/customButton';
+
 import Container from '@material-ui/core/Container';
 import { signInWithGoogle }  from '../../firebase/firebase.utils';
 import { auth } from '../../firebase/firebase.utils';

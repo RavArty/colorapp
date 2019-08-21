@@ -8,18 +8,15 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 import './ButtonHistory.scss'
 
-const ButtonToHistory = ({ currentUser }) => {
+const ButtonToHistory = () => {
 
     return(
     <div style={{marginBottom: '30px'}}>
       <Link className='button-history' to={{pathname: '/history'}}>
-      {/* <Link className='button-history' to={{pathname: '/history',
-            state : {id: currentUser.id}}}> */}
         <Button size="large" variant="contained" color="primary">
           History
         </Button>
-      </Link>
-      
+      </Link>  
     </div>
   ) 
   
