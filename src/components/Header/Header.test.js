@@ -4,10 +4,10 @@ import { Header }  from './Header';
 
 describe('Header component', () => {
   let wrapper
-  let mockSignOut
+//  let mockSignOut
 
   beforeEach(() => {
-    mockSignOut = jest.fn()
+    const mockSignOut = jest.fn()
 
     const mockProps = {
       classes: {signUpButton: "Header-signUpButton-1"},

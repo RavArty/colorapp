@@ -21,11 +21,14 @@ import './ImageLinkForm.scss'
 
 //For for uploading images
 class ImageLinkForm extends Component {
-    constructor(){
-    super()
+    constructor(props){
+    super(props)
       this.state = {
         input: ''
       }
+    //remove image and codes after refresh
+    props.setImageUrl('')
+    props.setImageCodes([])
     }
 
   keepColors = (data) => {

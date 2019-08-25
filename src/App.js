@@ -30,7 +30,7 @@ let theme = createMuiTheme({
   }
 });
 
-class App extends Component {
+export class App extends Component {
 
 
   updateUserWithEntries = (data) => {
@@ -39,7 +39,8 @@ class App extends Component {
 
   unsubscribeFromAuth = null
 
-  registerUserInDB = (id, data) => {
+  checkUserInDB = (id, data) => {
+  //registerUserInDB = (id, data) => {
     if (!id) return
       fetch(Constants.isUserInDBURL, {
         method: 'post',
@@ -49,33 +50,65 @@ class App extends Component {
         })
       })
         .then(response => {
+          // code 204 - user not registered, insert in db
           if (response.status === 204){
-            fetch(Constants.registerUserURL, {
-              method: 'post',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({
-                id: id,
-                name: data.displayName,
-                email: data.email
-              })
-            })
-              .then(response => response.json())
-              .catch(err => console.log('user not registered in db', err))
+            this.registerUserInDB(id, data.displayName, data.email)
+            // fetch(Constants.registerUserURL, {
+            //   method: 'post',
+            //   headers: {'Content-Type': 'application/json'},
+            //   body: JSON.stringify({
+            //     id: id,
+            //     name: data.displayName,
+            //     email: data.email
+            //   })
+            // })
+            //   .then(response => response.json())
+            //   .catch(err => console.log('user not registered in db', err))
         } else {
-          fetch(Constants.fetchEntriesURL, {
-              method: 'post',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({
-                id: id
-              })
-            })
-              .then(response => response.json())
-              .then(count => this.updateUserWithEntries(count))
-              .catch(err => console.log('unable to fetch entries: ', err))
+          this.returnNumberOfEntries(id)
+          // fetch(Constants.fetchEntriesURL, {
+          //     method: 'post',
+          //     headers: {'Content-Type': 'application/json'},
+          //     body: JSON.stringify({
+          //       id: id
+          //     })
+          //   })
+          //     .then(response => response.json())
+          //     .then(count => this.updateUserWithEntries(count))
+          //     .catch(err => console.log('unable to fetch entries: ', err))
         }
           
         })
         .catch(err => console.log('unable to check user in db', err))
+  }
+
+  registerUserInDB(id, name, email) {
+    fetch(Constants.registerUserURL, {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        email: email
+      })
+    })
+      .then(response => response.json())
+      .catch(err => console.log('user not registered in db', err))
+      this.updateUserWithEntries(0)
+
+  }
+
+  returnNumberOfEntries(id){
+    fetch(Constants.fetchEntriesURL, {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        id: id
+      })
+    })
+      .then(response => response.json())
+      .then(count => this.updateUserWithEntries(count))
+      .catch(err => console.log('unable to fetch entries: ', err))
   }
 
   componentDidMount(){
@@ -90,7 +123,7 @@ class App extends Component {
               id: snapShot.id,
               ...snapShot.data()  
           })
-          this.registerUserInDB(snapShot.id, snapShot.data())
+          this.checkUserInDB(snapShot.id, snapShot.data())
         })
       }else{
         setCurrentUser(userAuth)
