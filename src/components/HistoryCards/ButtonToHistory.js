@@ -8,6 +8,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 import './ButtonHistory.scss'
 
+//if user logged in, he has access to all previously uploaded images
 const ButtonToHistory = () => {
 
     return(

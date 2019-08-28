@@ -39,9 +39,14 @@ export class App extends Component {
 
   unsubscribeFromAuth = null
 
+  testFunc = (value) => {
+    return value
+  }
+//---------------------------------------------------------------------
   checkUserInDB = (id, data) => {
   //registerUserInDB = (id, data) => {
-    if (!id) return
+    if (!id) return 0
+  
       fetch(Constants.isUserInDBURL, {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
@@ -81,7 +86,7 @@ export class App extends Component {
         })
         .catch(err => console.log('unable to check user in db', err))
   }
-
+//---------------------------------------------------------------------
   registerUserInDB(id, name, email) {
     fetch(Constants.registerUserURL, {
       method: 'post',
@@ -97,7 +102,7 @@ export class App extends Component {
       this.updateUserWithEntries(0)
 
   }
-
+//---------------------------------------------------------------------
   returnNumberOfEntries(id){
     fetch(Constants.fetchEntriesURL, {
       method: 'post',
@@ -110,7 +115,7 @@ export class App extends Component {
       .then(count => this.updateUserWithEntries(count))
       .catch(err => console.log('unable to fetch entries: ', err))
   }
-
+//---------------------------------------------------------------------
   componentDidMount(){
     //returns a func
     const { setCurrentUser } = this.props

@@ -19,7 +19,7 @@ import './ImageLinkForm.scss'
 
 
 
-//For for uploading images
+//For uploading images
 class ImageLinkForm extends Component {
     constructor(props){
     super(props)

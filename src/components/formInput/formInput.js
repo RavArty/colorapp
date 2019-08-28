@@ -1,6 +1,7 @@
 import React from 'react'
 import './formInput.scss'
 
+//input form for sign in and sing up
 const FormInput = ({handleChange, label, ...otherProps}) => (
   <div className='group'>
     <input className='form-input' onChange={handleChange} {...otherProps} />

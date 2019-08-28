@@ -6,6 +6,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectCurrentEntries } from '../../redux/user/user.selectors';
 import Typography from '@material-ui/core/Typography';
 
+//Display number of uploaded images; registered users only
 class Rank extends React.Component {
  
   render(){

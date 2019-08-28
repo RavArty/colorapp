@@ -1,6 +1,7 @@
 import React from 'react';
 import { Circle } from 'react-shapes'
 
+//display colors received from API
 class Color extends React.Component {
 
   render(){

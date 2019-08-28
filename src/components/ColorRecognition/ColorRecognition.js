@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(2),
     },
   }));
-
+//display image and colors after clicking button "DETECT"
+//progress bar spinning while waiting for colors to be obtained
 const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
 
    const classes = useStyles();
@@ -38,7 +39,6 @@ const ColorRecognition = ({ imageCodes, imageUrl }) =>  {
                     />
                   )
                 })
-               
               }   
               </th>
             </tr>

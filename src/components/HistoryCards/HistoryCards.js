@@ -3,7 +3,9 @@ import Cards from './Cards'
 import { connect } from 'react-redux'
 import {createStructuredSelector} from 'reselect';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+import * as Constants from '../../constants'
 
+//Dispaly all uploaded images; only for registered users
 class HistoryCards extends React.Component {
   constructor(props){
     super(props)
@@ -13,8 +15,7 @@ class HistoryCards extends React.Component {
   }
 componentDidMount(){
   const {id} = this.props.currentUser
-  fetch('http://localhost:3000/history', {
-//  fetch('https://warm-forest-93262.herokuapp.com/history', { 
+  fetch(Constants.historyURL, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -27,25 +28,8 @@ componentDidMount(){
     })
     .catch(error => console.log(error))
 }
-  fetchHistoryData = (id) => {
-  //  fetch('https://warm-forest-93262.herokuapp.com/history', { 
-    fetch('http://localhost:3000/history', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        id: id
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      this.setState({responsedata: response})
-    })
-    .catch(error => console.log(error))
-  }
-
   render(){
 
-  //  console.log('history13: ', this.state.responsedata)
     return(
     <div>
       {

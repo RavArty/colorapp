@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
+//history cards; Card - image & colors
 const Cards = (props) => {
 
 	const classes = useStyles();

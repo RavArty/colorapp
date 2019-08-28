@@ -21,7 +21,7 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1)
   }
 });
-
+//Navbar - sign out if user signed in; sing in & sign up buttons if not
 export const Header = ({classes, currentUser}) => (
 
       <AppBar className='header-appbar' color="primary" position="static">
