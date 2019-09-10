@@ -51,7 +51,7 @@ class ImageLinkForm extends Component {
         })
         .then(response => response.json())
         .then(response => {
-          console.log('button submit 1')
+  
             this.keepColors(response)  // update colors with fetched values 
             //----------------------------------------------------------------
             const colorArr = []
