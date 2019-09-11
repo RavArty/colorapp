@@ -59,7 +59,7 @@ class Signup extends React.Component {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
       <Container className='header' maxWidth="sm">
-        {/* <div className='sign-up'> */}
+
  
         <h2 className='title'>Sign Up</h2>
         {/* <span>Sign up with your email and password</span> */}
