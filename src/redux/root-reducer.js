@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import userReducer from './user/user.reducer';
+import { userReducer } from './user/user.reducer';
 import imageReducer from './image/image.reducer';
 
 const persistConfig = {
@@ -11,9 +11,9 @@ const persistConfig = {
   whitelist: ['image', 'user']
 };
 
-const rootReducer =  combineReducers({
+const rootReducer = combineReducers({
   user: userReducer,
-  image: imageReducer,
+  image: imageReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);
